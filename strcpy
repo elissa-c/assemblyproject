@@ -20,7 +20,7 @@ strcpy:
 change:
 	mov		rdx, [rsi + rcx]
 	mov		[rdi + rcx], rdx
-	cmp		byte rdx, 0
+	cmp		dl, 0
 	je		exit
 	inc		rcx
 	jmp		change
