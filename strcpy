@@ -14,6 +14,7 @@ section	.text
 	global	strcpy
 
 strcpy:
+	sub 		rsp, 8
 	xor		rcx, rcx
 	jmp		change
 
@@ -26,5 +27,7 @@ change:
 	jmp		change
 
 exit:
+	mov     	al, 0
+	call    	printf wrt ..plt
 	mov		rax, rdi
 	ret
