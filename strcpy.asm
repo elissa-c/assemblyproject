@@ -4,6 +4,7 @@ default rel
 ;global  main
 
 extern  printf
+extern 	scanf
 
 section .data
     	;format      db 'Hello world!', 0xA, 0
@@ -20,10 +21,13 @@ section	.text
 strcpy:
 	sub 		rsp, 8
 	
-	lea 		rdi, [format_destination]
+	lea 		rdi, [format_input]
 	lea		rsi, [input]
 	mov 		rax, 0
 	call 		scanf wrt ..plt
+	
+	lea		rsi, [input]
+	lea		rdi, [output]
 	
 	;mov		rcx, 0
 	xor		rcx, rcx
@@ -38,6 +42,8 @@ change:
 	jmp		change
 
 exit:
+	lea		rsi, [output]
+	lea		rdi, [format_output]
 	mov     	al, 0
 	call    	printf wrt ..plt
 	
