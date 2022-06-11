@@ -23,6 +23,7 @@ section .text
       lea   r8, [array]         ; R8 LOAD ARRAY
       lea   r9, [count]         ; R9 COUNT
       
+    read:  
       lae   rdi, [format_input]
       mov   rsi, r8
       mov   rax, 0
