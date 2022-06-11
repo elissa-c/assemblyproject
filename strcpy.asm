@@ -31,17 +31,17 @@ strcpy:
 	
 	;mov		rcx, 0
 	xor		rcx, rcx
-	jmp		change
+	jmp		.change
 
-change:
+.change:
 	mov		rdx, [rsi + rcx]
 	mov		[rdi + rcx], rdx
 	cmp		dl, 0
-	je		exit
+	je		.exit
 	inc		rcx
-	jmp		change
+	jmp		.change
 
-exit:
+.exit:
 	lea		rsi, [output]
 	lea		rdi, [format_output]
 	mov     	al, 0
