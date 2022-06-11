@@ -1,7 +1,7 @@
 bits    64
 default rel
 
-global  main
+;global  main
 
 extern  printf
 
