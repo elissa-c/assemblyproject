@@ -25,9 +25,20 @@ section .text
       movq      xmm4, xmm6          ;value
       xor       rax, rax
       
-   sqrt:
+   .sqrt:
       movsd     xmm3, xmm4
       lea       rdi, [format_print]
       sqrtsd    xmm0, xmm3
       mov       al, 2
       call      printf wrt ..plt
+      
+      addsd     xmm4, xmm6
+      cmpsd     xmm4, xmm5
+      jle       .sqrt
+      
+      xor       rax, rax
+      jmp       .end
+      
+    .end:
+      add       rsp, 8
+      ret
