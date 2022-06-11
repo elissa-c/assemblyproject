@@ -8,39 +8,63 @@ extern  scanf
 extern  printf
 
 section .data
-    format_2x_lf            db '%lf %lf', 0
-    less_than_str           db '%lf is less than %lf', 0xA, 0
-    greater_or_equal_str    db '%lf is greater or equal to %lf', 0xA, 0
-
+    format_input            db '%d', 0
+    format_output           db '%d', 0
+    
+    
 section .bss
-    array_double    resq 2
+    count         resd 1
+    array         resd 100
 
 section .text
     main:
-      lea     rdx, [array_double + 8]     ; 3rd integer/pointer argument
-      lea     rsi, [array_double + 0]     ; 2nd integer/pointer argument
-      lea     rdi, [format_2x_lf]         ; 1st integer/pointer argument
-      mov     al, 0                       ; no floating-point arguments
-      call    scanf wrt ..plt
+      sub   rsp, 8
+      
+      lea   r8, [array]         ; R8 LOAD ARRAY
+      lea   r9, [count]         ; R9 COUNT
+      
+      lae   rdi, [format_input]
+      mov   rsi, r8
+      mov   rax, 0
+      call  scanf wrt ..plt     ; scanning all or scanning one? add some loop for array reading
+      
+      
     
-      mov dx, count
+      mov   dx, r9
       oloop:
-          mov cx, count
-          lea si, nums
+          mov       cx, r9
+          lea       si, r8
 
           iloop:
-              mov al, [si]                 ; Because compare can't have both memory
-              cmp al, [si+1]
-              jl common                      ; if al is less than [si+1] Skip the below two lines for swapping.
-              xchg al, [si+1]
-              mov [si], al                    ; Coz we can't use two memory locations in xchg directly.
+              mov       al, [si]                 ; compare can't have both memory
+              cmp       al, [si+1]
+              jl        allgood                      ; skip if al is less than [si+1] Skip 
+              
+              xchg      al, [si+1]
+              mov       [si], al                    ; Coz we can't use two memory locations in xchg directly.
 
-              common:
-                  INC si
-                  loop iloop
+              allgood:
+                  INC       si
+                  loop      iloop
 
+          cmp       dx, 0
+          je        .print
+          
           dec dx
           jnz oloop
+          
+    .print:
+        mov     rsi, [r8]
+        lea     rdi, [format_output]
+        mov     al, 0
+        call    printf wrt ..plt
+        
+        add     r8, 1
+        dec     r9
+        jnz     .print
+    .end:
+        add     rsp, 8
+        sub     rax, rax
+        ret
+  
 
-  .exit
-  end
