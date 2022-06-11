@@ -9,7 +9,7 @@ extern  printf
 
 section .data
     format_input            db '%d', 0
-    format_output           db '%d', 0
+    format_output           db '%d', 0xA, 0
     
     
 section .bss
