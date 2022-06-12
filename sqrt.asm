@@ -21,7 +21,7 @@ section .text
       call  scanf wrt ..plt
       
       movlpd    xmm5, [number]      ;ending
-      movlpd    xmm6, 0.125         ;increment
+      movlpd    xmm6,  __?float64?__(0.125)         ;increment
       movq      xmm4, xmm6          ;value
       xor       rax, rax
       
