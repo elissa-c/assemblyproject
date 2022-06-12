@@ -34,7 +34,7 @@ section .text
       call      printf wrt ..plt
       
       addsd     xmm4, xmm6
-      cmpsd     xmm4, xmm5
+      comisd    xmm4, xmm5
       jle       .sqrt
       
       xor       rax, rax
