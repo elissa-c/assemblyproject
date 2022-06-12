@@ -24,7 +24,7 @@ section .text
       lea   r9, [count]         ; R9 COUNT
       
     read:  
-      lae   rdi, [format_input]
+      lea   rdi, [format_input]
       mov   rsi, r8
       mov   rax, 0
       call  scanf wrt ..plt     ; scanning all or scanning one? add some loop for array reading
