@@ -33,12 +33,12 @@ section .text
 	    call	scanf wrt ..plt
 
 	    inc	dword [n]
-	    add	r8, 1
+	    add	r8, 4
 	    cmp	rax, 1
 	    jz	.read_arr
         
     .read_end:                
-	    lea	r9, [array+1]
+	    lea	r9, [array+4]
 	    cmp	r8, r9
 	    jnz	.read_ok  
 	    xor	rax, rax  
@@ -58,25 +58,27 @@ section .text
         cmp	r8, 2
         jz	.end
 
-        mov	r12d, dword [n]  ; i = n
-
         mov   dx, r9
         
       oloop:
-          mov       cx, r9
+          mov       cx, dword [n]
           dec       cx
-          lea       si, r8
+          lea       si, [array]
 
           iloop:
+	      lea	si, [si + 4*cx]
+	      lea	di, [si-4]
+	      
               mov       al, dword [si]                 ; compare can't have both memory
-              cmp       al, dword [si+1]
+              cmp       al, dword [di]
               jl        allgood                      ; skip if al is less than [si+1] Skip 
               
-              xchg      al, dword [si+1]
+              xchg      al, dword [di]
               mov       dword [si], al                    ; Coz we can't use two memory locations in xchg directly.
 
               allgood:
-                  INC       si
+                  sub       si, 4
+		  sub	    di, 4
                   loop      iloop
 
           cmp       dx, 0
@@ -84,6 +86,7 @@ section .text
           
           dec dx
           jnz oloop
+
           
     .print:
         mov     rsi, [r8]
@@ -91,7 +94,7 @@ section .text
         mov     al, 0
         call    printf wrt ..plt
         
-        add     r8, 1
+        add     r8, 4
         dec     r9
         jnz     .print
     .end:
