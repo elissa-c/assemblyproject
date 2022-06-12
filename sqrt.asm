@@ -9,7 +9,7 @@ section .data
     format_scan       db '%lf', 0
     format_res        db '%lf', 10, 0
     format_print      db 'sqrt(%f) = %f', 10, 0
-    data              dd 0.125
+    ;data              dd 0.125
 
 section .bss
     number      resq 1
@@ -22,7 +22,8 @@ section .text
       call  scanf wrt ..plt
       
       movlpd    xmm5, [number]      ;ending
-      movlpd    xmm6, [data]        ;increment
+      mov       rax, __?float64?__(0.125)
+      movq      xmm6, rax           ;increment
       movq      xmm4, xmm6          ;value
       xor       rax, rax
       
